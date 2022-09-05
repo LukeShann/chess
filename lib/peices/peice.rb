@@ -7,6 +7,6 @@ class Peice
   end
 
   def ascii
-    @color == :white ? @acsii.first : @acsii.last
+    @color == :white ? @ascii.first : @ascii.last
   end
 end
