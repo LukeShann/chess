@@ -3,4 +3,7 @@
 require_relative 'peice'
 
 class Knight < Peice
+  def initialize
+    @ascii = ['♘', '♞']
+  end
 end

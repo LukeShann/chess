@@ -5,4 +5,8 @@ class Peice
   def initialize(color)
     @color = color
   end
+
+  def ascii
+    @color == :white ? @acsii.first : @acsii.last
+  end
 end

@@ -3,4 +3,7 @@
 require_relative 'peice'
 
 class Queen < Peice
+  def initialize
+    @ascii = ['♕', '♛']
+  end
 end

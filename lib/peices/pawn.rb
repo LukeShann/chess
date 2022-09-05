@@ -3,4 +3,7 @@
 require_relative 'peice'
 
 class Pawn < Peice
+  def initialize
+    @ascii = ['♙', '♟']
+  end
 end
