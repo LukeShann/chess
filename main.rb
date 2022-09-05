@@ -3,3 +3,6 @@
 require_relative './lib/game'
 
 game = Game.new
+
+# For testing
+game.display_board
