@@ -32,7 +32,7 @@ class Board
 
   def place_peices(peice_class, coords)
     coords.each do |coord|
-      if coord.last <= 1
+      if coord.last == 0
         @board[coord.first][coord.last] = peice_class.new(:white)
       else
         @board[coord.first][coord.last] = peice_class.new(:black)
