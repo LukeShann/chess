@@ -1,15 +1,18 @@
 # frozen_string_literal: true
 
-require_relative 'peice'
+local_directory = File.expand_path('../../', __FILE__)
+$LOAD_PATH.unshift(local_directory)
+Dir['lib/peices/*.rb'].each { |file| require file }
 
 class Board
   attr_accessor :board
 
   def initialize
     @board = Array.new(8) { Array.new(8) }
+    fill_board
   end
 
-  private
+  #private
 
   def fill_board
     place_pawns
