@@ -22,9 +22,7 @@ module Display
 
   def message(message)
     message_que.push(message)
-
     @que = @que.last(3)
-
     display
   end
 
