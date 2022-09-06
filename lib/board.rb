@@ -27,17 +27,17 @@ class Board
 
   def place_pawns
     8.times do |i|
-      @board[i][1] = Pawn.new(:white)
-      @board[i][6] = Pawn.new(:black)
+      @board[i][1] = Pawn.new(:white, [i, 1])
+      @board[i][6] = Pawn.new(:black, [i, 6])
     end
   end
 
   def place_peices(peice_class, coords)
     coords.each do |coord|
       if coord.last == 0
-        @board[coord.first][coord.last] = peice_class.new(:white)
+        @board[coord.first][coord.last] = peice_class.new(:white, coord)
       else
-        @board[coord.first][coord.last] = peice_class.new(:black)
+        @board[coord.first][coord.last] = peice_class.new(:black, coord)
       end
     end
   end

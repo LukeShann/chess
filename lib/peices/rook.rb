@@ -4,8 +4,8 @@
 require_relative 'peice'
 
 class Rook < Peice
-  def initialize(_)
-    super
+  def initialize(color, coords)
+    super(color, coords)
     @ascii = ['♖', '♜']
   end
 end
