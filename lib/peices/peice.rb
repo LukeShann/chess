@@ -15,4 +15,19 @@ class Peice
     # stubbed with true while testing
     true
   end
+
+  def next_coords(coords, movement)
+    nx = coords.first + movement.first
+    return false unless (0..7).include?(nx)
+    ny = coords.last + movement.last
+    return false unless (0..7).include?(ny)
+    [nx, ny]
+  end
+
+  def filter_moves(board, moves)
+    moves.filter do |move|
+      target = board[move.first][move.last]
+      target.nil? || target.color != @color ? move : false
+    end
+  end
 end
