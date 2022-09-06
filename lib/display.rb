@@ -7,13 +7,11 @@ module Display
 
   def display_board
     color_ticker = true
-    puts '   A  B  C  D  E  F  G  H'
     7.downto(0) do |y|
-      print "#{8 - y} "
       8.times do |x|
         position = @board.board[x][y]
         to_print = position.nil? ? '   ' : " #{position.ascii} "
-        print color_ticker ? to_print.black.on_white : to_print.black.on_yellow
+        print color_ticker ? to_print.on_white : to_print.on_light_magenta
         color_ticker = !color_ticker
       end
       print "\n"
