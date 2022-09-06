@@ -20,4 +20,30 @@ module Display
     end
   end
 
+  def message(message)
+    message_que.push(message)
+
+    @que = @que.last(3)
+
+    display
+  end
+
+  def display
+    system "clear"
+    display_board
+
+    message_que.each do |message|
+      puts messages[message].blue
+    end
+  end
+
+  def message_que
+    @que ||= []
+  end
+
+  def messages
+    {
+      
+    }
+  end
 end
