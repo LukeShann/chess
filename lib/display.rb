@@ -43,7 +43,10 @@ module Display
 
   def messages
     {
-      
+      welcome: "Welcome to Chess Supreme!\n It's #{@current_player}'s move first",
+      turn_instructions: "#{@current_player} to choose a peice",
+      input_instructions: "Choose a square to select",
+      invalid_input: "Input should be a letter & number (e.g. 4C)"
     }
   end
 end
