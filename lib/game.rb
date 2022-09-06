@@ -53,6 +53,7 @@ class Game
     loop do
       selection = get_input
       break if @board.valid_selection?(selection, @current_player)
+      #TODO: Different messages for chosing wrong peice or a peice that can't move
       message(:not_friendly_peice)
     end
     selection
