@@ -10,6 +10,8 @@ class Board
   def initialize
     @board = Array.new(8) { Array.new(8) }
     fill_board
+    @selected = nil
+    @high_lighted = nil
   end
 
   #private
@@ -38,5 +40,11 @@ class Board
         @board[coord.first][coord.last] = peice_class.new(:black)
       end
     end
+  end
+
+  def valid_selection?(coords, current_player)
+    peice = board[coords.first][coords.last]
+    return false if peice.nil?
+    peice.color == current_player && peice.can_move?
   end
 end
