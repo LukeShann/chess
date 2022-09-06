@@ -10,10 +10,8 @@ class Peice
     @color == :white ? @ascii.first : @ascii.last
   end
 
-  def can_move?
-    # call individual peice's move method and ensure a length of 1 +
-    # stubbed with true while testing
-    true
+  def can_move?(board)
+    possible_moves(board).length > 0
   end
 
   def next_coords(coords, movement)
