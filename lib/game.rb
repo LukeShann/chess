@@ -3,12 +3,15 @@
 require_relative 'board'
 require_relative 'display'
 
+
 class Game
   include Display
+  X_AXIS = 'ABCDEFGH'
   
   def initialize
     @board = Board.new
     @current_player = :white
+    @selected = false
   end
 
   def change_turn
@@ -20,22 +23,22 @@ class Game
 
     loop do
       take_turn
-      break if won
-      change_turn
+    #   break if won
+    #   change_turn
     end
 
-    message(:win)
+    # message(:win)
   end
 
   def take_turn
     message(:turn_instructions)
 
-    # move = nil
-    # loop do
-    #   move = get_input
-    #   break if @board.move_valid?(move)
+    selection = nil
+    loop do
+      selection = get_input
+    #  break if selection is of current players colour
     #   message(:invalid_turn)
-    # end
+    end
 
     # @board.make_move(move, @current_player)
   end
@@ -44,15 +47,22 @@ class Game
     input = nil
     loop do
       message(:input_instructions)
-      input = gets.chomp.to_i
+      input = gets.chomp
       break if input_valid?(input)
       message(:invalid_input)
     end
-
-    input - 1
+    translate_input(input)
   end
   
   def input_valid?(i)
-    # letter & number
+    return false unless i.length == 2
+    i.scan(/[A-H]/i).size == 1 && i.scan(/[1-8]/).size == 1
+  end
+
+  def translate_input(input)
+    input = input.upcase
+    x = X_AXIS.index(input.scan(/[A-H]/).first)
+    y = input.scan(/[1-8]/).first.to_i - 1
+    [x, y]
   end
 end
