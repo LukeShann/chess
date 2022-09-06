@@ -11,7 +11,6 @@ class Game
   def initialize
     @board = Board.new
     @current_player = :white
-    @selected = false
   end
 
   def change_turn
@@ -31,16 +30,32 @@ class Game
   end
 
   def take_turn
-    message(:turn_instructions)
+    select_peice
+    # message which peice is selected
+    # offer to cancel
+    # highlight selected tile
+    # highlight legal moves
 
+    # loop
+      # prompt for next input
+      # break if is included in 'legal moves'
+      
+    #  break if selection is of current players colour
+    #   message(:invalid_turn)
+    #end
+
+    # @board.make_move(move, @current_player)
+  end
+
+  def select_peice
+    message(:turn_instructions)
     selection = nil
     loop do
       selection = get_input
-    #  break if selection is of current players colour
-    #   message(:invalid_turn)
+      break if @board.valid_selection?(selection, @current_player)
+      message(:not_friendly_peice)
     end
-
-    # @board.make_move(move, @current_player)
+    selection
   end
 
   def get_input
