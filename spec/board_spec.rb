@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require_relative '../lib/board'
 
 describe Board do
@@ -36,5 +37,8 @@ describe Board do
       end
     end
   end
+
+end
+
 
 end

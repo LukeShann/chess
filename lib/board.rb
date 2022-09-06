@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 local_directory = File.expand_path('../../', __FILE__)
@@ -39,4 +40,6 @@ class Board
       end
     end
   end
+end
+d
 end

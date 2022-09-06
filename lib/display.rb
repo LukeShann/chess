@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 require 'colorize'
@@ -19,5 +20,8 @@ module Display
       color_ticker = !color_ticker
     end
   end
+
+end
+
 
 end
