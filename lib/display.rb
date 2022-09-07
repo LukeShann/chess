@@ -32,9 +32,10 @@ module Display
     end
   end
 
-  def message(message)
+  def message(message, reset)
     message_que.push(message)
     @que = @que.last(3)
+    @que = [message] if reset 
     display
   end
 
@@ -54,14 +55,15 @@ module Display
   def messages
     {
       welcome: "Welcome to Chess Supreme!",
-      turn_instructions: "#{@current_player} to choose a peice".capitalize,
-      input_instructions: "Choose a peice to move",
+      turn_instructions: "#{@current_player}'s turn".capitalize,
+      input_instructions: "Choose coordinates",
       invalid_input: "Input should be a letter & number (e.g. 4C)",
       no_peice_to_select: "No peice there",
       peice_cannot_move: "Peice has no possible moves",
       choose_friendly_peice: "That's not your peice",
       selected_peice: "You have selected", # Translate back???
-      make_move: "Where would you like to move to?"
+      make_move: "Where would you like to move to?",
+      cannot_move_there: "Can't move there"
     }
   end
 end
