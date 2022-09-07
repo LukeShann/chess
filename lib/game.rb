@@ -32,7 +32,6 @@ class Game
 
   def take_turn
     select_peice
-    message(:selected_peice, true)
     # offer to cancel
 
     move = nil
