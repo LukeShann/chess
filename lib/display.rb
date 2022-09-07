@@ -23,8 +23,10 @@ module Display
     position = @board.board[x][y]
     to_print = position.nil? ? '   ' : " #{position.ascii} "
 
-    if @board.selected == [x, y] || @board.high_lighted.include?([x, y])
+    if @board.high_lighted.include?([x, y])
       print to_print.black.on_green
+    elsif @board.selected == [x, y]
+      print to_print.black.on_cyan
     else
       print color_ticker ? to_print.black.on_white : to_print.black.on_yellow
     end
@@ -58,7 +60,8 @@ module Display
       no_peice_to_select: "No peice there",
       peice_cannot_move: "Peice has no possible moves",
       choose_friendly_peice: "That's not your peice",
-      selected_peice: "You have selected" # Translate back???
+      selected_peice: "You have selected", # Translate back???
+      make_move: "Where would you like to move to?"
     }
   end
 end
