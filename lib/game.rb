@@ -18,12 +18,13 @@ class Game
   end
 
   def play
-    message(:welcome)
+    message(:welcome, true)
 
     loop do
       take_turn
-    #   break if won
-    #   change_turn
+    #   break if check_mate
+    #   break if stale_mate
+      change_turn
     end
 
     # message(:win)
@@ -31,28 +32,28 @@ class Game
 
   def take_turn
     select_peice
-    message(:selected_peice)
+    message(:selected_peice, true)
     # offer to cancel
 
-    # loop
-      # prompt for next input
-      # break if is included in 'legal moves'
-      
-    #  break if selection is of current players colour
-    #   message(:invalid_turn)
-    #end
+    move = nil
+    loop do
+      message(:make_move, false)
+      move = get_input
+      break if @board.high_lighted.include?(move)
+      message(:cannot_move_there, true)
+    end
 
-    # @board.make_move(move, @current_player)
+    @board.make_move(move)
   end
 
   def select_peice
-    message(:turn_instructions)
+    message(:turn_instructions, false)
     selection = nil
     loop do
       selection = get_input
       response = @board.check_selection(selection, @current_player)
       break if response == true
-      message(response)
+      message(response, true)
     end
     @board.select(selection)
   end
@@ -60,10 +61,10 @@ class Game
   def get_input
     input = nil
     loop do
-      message(:input_instructions)
+      message(:input_instructions, false)
       input = gets.chomp
       break if input_valid?(input)
-      message(:invalid_input)
+      message(:invalid_input, true)
     end
     translate_input(input)
   end
