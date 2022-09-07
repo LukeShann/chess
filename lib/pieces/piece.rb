@@ -14,6 +14,10 @@ class Piece
     possible_moves(board).length > 0
   end
 
+  def move_coords(coords)
+    @coords = coords
+  end
+
   def next_coords(coords, movement)
     nx = coords.first + movement.first
     return false unless (0..7).include?(nx)

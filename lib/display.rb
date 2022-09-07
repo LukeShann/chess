@@ -35,6 +35,7 @@ module Display
   def message(message, reset)
     message_que.push(message)
     @que = @que.last(3)
+    @que.shift if @que.first == @que.last
     @que = [message] if reset 
     display
   end
@@ -61,7 +62,6 @@ module Display
       no_peice_to_select: "No peice there",
       peice_cannot_move: "Peice has no possible moves",
       choose_friendly_peice: "That's not your peice",
-      selected_peice: "You have selected", # Translate back???
       make_move: "Where would you like to move to?",
       cannot_move_there: "Can't move there"
     }

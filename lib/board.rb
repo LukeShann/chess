@@ -32,7 +32,9 @@ class Board
 
   def make_move(move)
     board[move.first][move.last] = selected_peice
+    selected_peice.move_coords(move)
     board[selected.first][selected.last] = nil
+    
     @selected.clear
     @high_lighted.clear
   end
