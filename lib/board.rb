@@ -4,13 +4,13 @@ local_directory = File.expand_path('../../', __FILE__)
 Dir["#{local_directory}/lib/peices/*.rb"].each { |file| require file }
 
 class Board
-  attr_accessor :board
+  attr_accessor :board, :selected, :high_lighted
 
   def initialize
     @board = Array.new(8) { Array.new(8) }
     fill_board
-    @selected = nil
-    @high_lighted = nil
+    @selected = []
+    @high_lighted = []
   end
 
   #private
@@ -41,9 +41,20 @@ class Board
     end
   end
 
-  def valid_selection?(coords, current_player)
+  def check_selection(coords, current_player)
     peice = board[coords.first][coords.last]
-    return false if peice.nil?
-    peice.color == current_player && peice.can_move?
+    return :no_peice_to_select if peice.nil?
+    return :peice_cannot_move unless peice.can_move?(board)
+    return :choose_friendly_peice if peice.color != current_player
+    true
+  end
+
+  def select(coords)
+    @selected = coords
+    @high_lighted = board[coords.first][coords.last].possible_moves(board)
+  end
+
+  def selected_peice
+    @board[selected.first][selected.last]
   end
 end

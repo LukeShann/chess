@@ -31,10 +31,8 @@ class Game
 
   def take_turn
     select_peice
-    # message which peice is selected
+    message(:selected_peice)
     # offer to cancel
-    # highlight selected tile
-    # highlight legal moves
 
     # loop
       # prompt for next input
@@ -52,11 +50,11 @@ class Game
     selection = nil
     loop do
       selection = get_input
-      break if @board.valid_selection?(selection, @current_player)
-      #TODO: Different messages for chosing wrong peice or a peice that can't move
-      message(:not_friendly_peice)
+      response = @board.check_selection(selection, @current_player)
+      break if response == true
+      message(response)
     end
-    selection
+    @board.select(selection)
   end
 
   def get_input

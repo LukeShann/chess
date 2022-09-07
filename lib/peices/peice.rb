@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Peice
-  attr_reader :color
+  attr_reader :color, :coords
   def initialize(color, coords)
     @color, @coords = color, coords
   end
