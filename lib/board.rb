@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 local_directory = File.expand_path('../../', __FILE__)
-Dir["#{local_directory}/lib/peices/*.rb"].each { |file| require file }
+Dir["#{local_directory}/lib/pieces/*.rb"].each { |file| require file }
 
 class Board
   attr_accessor :board, :selected, :high_lighted
