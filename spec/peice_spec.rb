@@ -8,7 +8,7 @@ describe Peice do
   before { test_board[0][0] = test_knight }
   
   describe '.can_move?' do
-    context 'when open' do
+    context 'when open to move' do
       it 'returns true' do
         expect(test_knight.can_move?(test_board)).to be(true)
       end
@@ -16,8 +16,8 @@ describe Peice do
 
     context 'when there are no possible moves' do
       before do
-         test_board[1][2] = Knight.new(:black, [1, 2])
-         test_board[2][1] = Knight.new(:black, [2, 1])
+        test_board[1][2] = Knight.new(:black, [1, 2])
+        test_board[2][1] = Knight.new(:black, [2, 1])
       end
 
       it 'returns false' do
