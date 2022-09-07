@@ -37,11 +37,17 @@ class Piece
   def path_recursive(board, positon, direction)
     new_coords = next_coords(positon, direction)
     return [] if new_coords.nil?
-    
+
     next_contents = board[new_coords.first][new_coords.last]
     return [new_coords] + path_recursive(board, new_coords, direction) if next_contents.nil?
     
     return [] if next_contents.color == color
     return [new_coords] if next_contents.color != color
+  end
+
+  def possible_moves(board)
+    move_directions.reduce([]) do |arr, direction|
+      arr + path_recursive(board, @coords, direction)
+    end
   end
 end

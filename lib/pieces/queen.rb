@@ -11,9 +11,7 @@ class Queen < Piece
     @ascii = ['♕', '♛']
   end
 
-  def possible_moves(board)
-    @@move_directions.reduce([]) do |arr, direction|
-      arr + path_recursive(board, @coords, direction)
-    end
+  def move_directions
+    @@move_directions
   end
 end
