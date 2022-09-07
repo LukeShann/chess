@@ -8,22 +8,36 @@ module Display
     color_ticker = true
     puts '   A  B  C  D  E  F  G  H'
     7.downto(0) do |y|
-      print "#{8 - y} "
+      print "#{y + 1} "
       8.times do |x|
-        position = @board.board[x][y]
-        to_print = position.nil? ? '   ' : " #{position.ascii} "
-        print color_ticker ? to_print.black.on_white : to_print.black.on_yellow
+        print_square(x, y, color_ticker)
         color_ticker = !color_ticker
       end
-      print "\n"
+      print " #{y + 1}\n"
       color_ticker = !color_ticker
+    end
+    puts '   A  B  C  D  E  F  G  H'
+  end
+
+  def print_square(x, y, color_ticker)
+    position = @board.board[x][y]
+    to_print = position.nil? ? '   ' : " #{position.ascii} "
+
+    if @board.selected == [x, y] || @board.high_lighted.include?([x, y])
+      print to_print.black.on_green
+    else
+      print color_ticker ? to_print.black.on_white : to_print.black.on_yellow
     end
   end
 
   def message(message)
-    @que.push(message)
+    message_que.push(message)
     @que = @que.last(3)
     display
+  end
+
+  def message_que
+    @que ||= []
   end
 
   def display
@@ -37,10 +51,14 @@ module Display
 
   def messages
     {
-      welcome: "Welcome to Chess Supreme!\n It's #{@current_player}'s move first",
-      turn_instructions: "#{@current_player} to choose a peice",
-      input_instructions: "Choose a square to select",
-      invalid_input: "Input should be a letter & number (e.g. 4C)"
+      welcome: "Welcome to Chess Supreme!",
+      turn_instructions: "#{@current_player} to choose a peice".capitalize,
+      input_instructions: "Choose a peice to move",
+      invalid_input: "Input should be a letter & number (e.g. 4C)",
+      no_peice_to_select: "No peice there",
+      peice_cannot_move: "Peice has no possible moves",
+      choose_friendly_peice: "That's not your peice",
+      selected_peice: "You have selected" # Translate back???
     }
   end
 end
