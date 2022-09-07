@@ -12,8 +12,36 @@ class Board
     @selected = []
     @high_lighted = []
   end
+  
+  def check_selection(coords, current_player)
+    peice = board[coords.first][coords.last]
+    return :no_peice_to_select if peice.nil?
+    return :peice_cannot_move unless peice.can_move?(board)
+    return :choose_friendly_peice if peice.color != current_player
+    true
+  end
 
-  #private
+  def select(coords)
+    @selected = coords
+    @high_lighted = at(coords).possible_moves(board)
+  end
+
+  def selected_peice
+    @board[selected.first][selected.last]
+  end
+
+  def make_move(move)
+    board[move.first][move.last] = selected_peice
+    board[selected.first][selected.last] = nil
+    @selected.clear
+    @high_lighted.clear
+  end
+  
+  private
+
+  def at(coords)
+    @board[coords.first][coords.last]
+  end
 
   def fill_board
     place_pawns
@@ -39,22 +67,5 @@ class Board
         @board[coord.first][coord.last] = peice_class.new(:black, coord)
       end
     end
-  end
-
-  def check_selection(coords, current_player)
-    peice = board[coords.first][coords.last]
-    return :no_peice_to_select if peice.nil?
-    return :peice_cannot_move unless peice.can_move?(board)
-    return :choose_friendly_peice if peice.color != current_player
-    true
-  end
-
-  def select(coords)
-    @selected = coords
-    @high_lighted = board[coords.first][coords.last].possible_moves(board)
-  end
-
-  def selected_peice
-    @board[selected.first][selected.last]
   end
 end
