@@ -12,7 +12,9 @@ class Knight < Piece
   end
 
   def possible_moves(board)
-    new_positions = @@move_directions.map { |move| next_coords(@coords, move)}
-    filter_moves(board, new_positions - [false])
+    new_positions = @@move_directions
+      .map { |move| next_coords(@coords, move)}
+      .reject(&:nil?)
+    filter_moves(board, new_positions)
   end
 end

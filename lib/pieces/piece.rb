@@ -20,9 +20,9 @@ class Piece
 
   def next_coords(coords, movement)
     nx = coords.first + movement.first
-    return false unless (0..7).include?(nx)
+    return nil unless (0..7).include?(nx)
     ny = coords.last + movement.last
-    return false unless (0..7).include?(ny)
+    return nil unless (0..7).include?(ny)
     [nx, ny]
   end
 
