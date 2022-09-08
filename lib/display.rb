@@ -20,12 +20,13 @@ module Display
   end
 
   def print_square(x, y, color_ticker)
-    position = @board.board[x][y]
-    to_print = position.nil? ? '   ' : " #{position.ascii} "
+    board_position = translate_coord([x, y])
+    content = @board.state[board_position]
+    to_print = content.nil? ? '   ' : " #{content.ascii} "
 
-    if @board.high_lighted.include?([x, y])
+    if @board.high_lighted.include?(board_position)
       print to_print.black.on_green
-    elsif @board.selected == [x, y]
+    elsif @board.selected_position == board_position
       print to_print.black.on_cyan
     else
       print color_ticker ? to_print.black.on_white : to_print.black.on_yellow

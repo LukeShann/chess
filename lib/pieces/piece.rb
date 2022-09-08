@@ -1,53 +1,60 @@
 # frozen_string_literal: true
 
+require_relative '../coords'
+
 class Piece
-  attr_reader :color, :coords
+  attr_reader :color
+  include Coords
 
-  def initialize(color, coords)
-    @color, @coords = color, coords
-  end
-
-  def ascii
-    @color == :white ? @ascii.first : @ascii.last
+  def initialize(color)
+    @color = color
   end
 
   def can_move?(board)
     possible_moves(board).length > 0
   end
 
-  def move_coords(coords)
-    @coords = coords
-  end
+  def next_position(position, movement)
+    coords = translate_position(position)
 
-  def next_coords(coords, movement)
     nx = coords.first + movement.first
     return nil unless (0..7).include?(nx)
     ny = coords.last + movement.last
     return nil unless (0..7).include?(ny)
-    [nx, ny]
+    
+    translate_coord([nx, ny])
   end
 
-  def filter_moves(board, moves)
-    moves.filter do |move|
-      target = board[move.first][move.last]
-      target.nil? || target.color != @color ? move : false
+  def filter_moves(board, new_positions)
+    new_positions.filter do |position|
+      content = board[position]
+      content.nil? || content.color != @color
     end
   end
 
   def path_recursive(board, positon, direction)
-    new_coords = next_coords(positon, direction)
-    return [] if new_coords.nil?
+    new_position = next_position(positon, direction)
+    return [] if new_position.nil?
 
-    next_contents = board[new_coords.first][new_coords.last]
-    return [new_coords] + path_recursive(board, new_coords, direction) if next_contents.nil?
+    next_contents = board[new_position]
+    return [new_position] + path_recursive(board, new_position, direction) if next_contents.nil?
     
     return [] if next_contents.color == color
-    return [new_coords] if next_contents.color != color
+    return [new_position] if next_contents.color != color
   end
 
   def possible_moves(board)
     move_directions.reduce([]) do |arr, direction|
-      arr + path_recursive(board, @coords, direction)
+      arr + path_recursive(board, board.index(self), direction)
     end
+  end
+
+  def possible_moves_static(board)
+    board_position = board.index(self)
+    
+    new_positions = move_directions
+      .map { |movement| next_position(board_position, movement)}
+      .reject(&:nil?)
+    filter_moves(board, new_positions)
   end
 end

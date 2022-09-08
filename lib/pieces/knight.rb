@@ -4,17 +4,15 @@
 require_relative 'piece'
 
 class Knight < Piece
-  @@move_directions = [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]]
+  def move_directions
+    [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]]
+  end
 
-  def initialize(color, coords)
-    super(color, coords)
-    @ascii = ['♘', '♞']
+  def ascii
+    color == :white ? '♘' : '♞'
   end
 
   def possible_moves(board)
-    new_positions = @@move_directions
-      .map { |move| next_coords(@coords, move)}
-      .reject(&:nil?)
-    filter_moves(board, new_positions)
+    possible_moves_static(board)
   end
 end

@@ -2,85 +2,62 @@
 
 local_directory = File.expand_path('../../', __FILE__)
 Dir["#{local_directory}/lib/pieces/*.rb"].each { |file| require file }
+require_relative 'coords'
 
 class Board
-  attr_accessor :board, :selected, :high_lighted
+  attr_reader :state, :selected_position, :high_lighted
+  include Coords
 
   def initialize
-    @board = Array.new(8) { Array.new(8) }
+    @state = Array.new(8 * 8)
     fill_board
-    @selected = []
+    @selected_position = []
     @high_lighted = []
-    @kings = {}
   end
   
-  def check_selection(coords, current_player)
-    peice = board[coords.first][coords.last]
+  # Needs updating
+  def check_selection(position, current_player)
+    peice = state[position]
     return :no_peice_to_select if peice.nil?
-    return :peice_cannot_move unless peice.can_move?(board)
+    return :peice_cannot_move unless peice.can_move?(state)
     return :choose_friendly_peice if peice.color != current_player
     true
   end
 
-  def select(coords)
-    @selected = coords
-    @high_lighted = at(coords).possible_moves(board)
+  def select(position)
+    @selected_position = position
+    @high_lighted = state[position].possible_moves(state)
   end
 
   def selected_peice
-    @board[selected.first][selected.last]
+    state[selected_position]
   end
 
-  def make_move(move)
-    board[move.first][move.last] = selected_peice
-    selected_peice.move_coords(move)
-    board[selected.first][selected.last] = nil
+  def make_move(move_to)
+    state[move_to] = selected_peice
+    state[selected_position] = nil
     
-    @selected.clear
+    @selected_position = nil
     @high_lighted.clear
   end
 
   def find_enemy_king(current_color)
-    enemy_king_position = []
-    board.find do |col|
-      col.find do |sqr|
-        if sqr != nil && sqr.class == King && sqr.color != current_color
-          enemy_king_position = sqr.coords
-        end
-      end
-    end
-    enemy_king_position
-  end
-  
-  private
-
-  def at(coords)
-    @board[coords.first][coords.last]
+    state.index { |x| x != nil && x.kind_of?(King) && x.color != current_color }
   end
 
   def fill_board
-    place_pawns
-    place_peices(Rook, [[0, 0], [7, 0], [0, 7], [7, 7]])
-    place_peices(Knight, [[1, 0], [6, 0], [1, 7], [6, 7]])
-    place_peices(Bishop, [[2, 0], [5, 0], [2, 7], [5, 7]])
-    place_peices(Queen, [[3, 7], [3, 0]])
-    place_peices(King, [[4, 7], [4, 0]])
+    place_peices(Rook, [0, 7, 56, 63])
+    place_peices(Knight, [1, 6, 57, 62])
+    place_peices(Bishop, [2, 5, 58, 61])
+    place_peices(Queen, [59, 3])
+    place_peices(King, [60, 4])
+    place_peices(Pawn, (8..15).to_a + (48..55).to_a)
   end
 
-  def place_pawns
-    8.times do |i|
-      @board[i][1] = Pawn.new(:white, [i, 1])
-      @board[i][6] = Pawn.new(:black, [i, 6])
-    end
-  end
-
-  def place_peices(peice_class, coords)
-    coords.each do |coord|
-      if coord.last == 0
-        @board[coord.first][coord.last] = peice_class.new(:white, coord)
-      else
-        @board[coord.first][coord.last] = peice_class.new(:black, coord)
-      end
+  def place_peices(peice_class, positions)
+    positions.each do |position|
+      color = position < 16 ? :white : :black
+      @state[position] = peice_class.new(color)
     end
   end
 end

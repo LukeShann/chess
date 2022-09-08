@@ -2,9 +2,12 @@
 
 require_relative 'board'
 require_relative 'display'
+require_relative 'coords'
 
 class Game
   include Display
+  include Coords
+
   X_AXIS = 'ABCDEFGH'
   
   def initialize
@@ -32,12 +35,10 @@ class Game
 
   def in_check?
     enemy_king_coords = @board.find_enemy_king(@current_player)
-    @board.board.any? do |column|
-      column.any? do |position|
-        unless position.nil? || position.color != @current_player
-          if position.possible_moves(@board.board).include?(enemy_king_coords)
-            @in_check = true
-          end
+    @board.state.any? do |x|
+      unless x.nil? || x.color != @current_player
+        if x.possible_moves(@board.state).include?(enemy_king_coords)
+          @in_check = true
         end
       end
     end
@@ -45,13 +46,14 @@ class Game
 
   def take_turn
     select_peice
-    # TO:DO offer to cancel
+    # TODO: offer to cancel
 
     move = nil
     loop do
       message(:make_move, false)
       move = get_input
       break if @board.high_lighted.include?(move)
+      # TODO: ensure we get out of check
       message(:cannot_move_there, true)
     end
 
@@ -90,6 +92,6 @@ class Game
     input = input.upcase
     x = X_AXIS.index(input.scan(/[A-H]/).first)
     y = input.scan(/[1-8]/).first.to_i - 1
-    [x, y]
+    translate_coord([x, y])
   end
 end
