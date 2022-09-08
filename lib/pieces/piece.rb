@@ -14,6 +14,14 @@ class Piece
     possible_moves(board).length > 0
   end
 
+  def possible_moves(board)
+    move_directions.reduce([]) do |arr, direction|
+      arr + path_recursive(board, board.index(self), direction)
+    end
+  end
+
+  private
+
   def next_position(position, movement)
     coords = translate_position(position)
 
@@ -41,12 +49,6 @@ class Piece
     
     return [] if next_contents.color == color
     return [new_position] if next_contents.color != color
-  end
-
-  def possible_moves(board)
-    move_directions.reduce([]) do |arr, direction|
-      arr + path_recursive(board, board.index(self), direction)
-    end
   end
 
   def possible_moves_static(board)

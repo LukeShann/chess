@@ -4,11 +4,14 @@
 require_relative 'piece'
 
 class Bishop < Piece
+  def ascii
+    color == :white ? '♗' : '♝'
+  end
+
+  private
+
    def move_directions
     [[-1, -1], [-1, 1], [1, -1], [1, 1]]
    end
 
-  def ascii
-    color == :white ? '♗' : '♝'
-  end
 end
