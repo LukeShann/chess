@@ -11,6 +11,7 @@ class Board
     fill_board
     @selected = []
     @high_lighted = []
+    @kings = {}
   end
   
   def check_selection(coords, current_player)
@@ -37,6 +38,18 @@ class Board
     
     @selected.clear
     @high_lighted.clear
+  end
+
+  def find_enemy_king(current_color)
+    enemy_king_position = []
+    board.find do |col|
+      col.find do |sqr|
+        if sqr != nil && sqr.class == King && sqr.color != current_color
+          enemy_king_position = sqr.coords
+        end
+      end
+    end
+    enemy_king_position
   end
   
   private

@@ -3,7 +3,6 @@
 require_relative 'board'
 require_relative 'display'
 
-
 class Game
   include Display
   X_AXIS = 'ABCDEFGH'
@@ -11,6 +10,7 @@ class Game
   def initialize
     @board = Board.new
     @current_player = :white
+    @in_check = false
   end
 
   def change_turn
@@ -22,7 +22,7 @@ class Game
 
     loop do
       take_turn
-    #   break if check_mate
+      in_check?
     #   break if stale_mate
       change_turn
     end
@@ -30,9 +30,22 @@ class Game
     # message(:win)
   end
 
+  def in_check?
+    enemy_king_coords = @board.find_enemy_king(@current_player)
+    @board.board.any? do |column|
+      column.any? do |position|
+        unless position.nil? || position.color != @current_player
+          if position.possible_moves(@board.board).include?(enemy_king_coords)
+            @in_check = true
+          end
+        end
+      end
+    end
+  end
+
   def take_turn
     select_peice
-    # offer to cancel
+    # TO:DO offer to cancel
 
     move = nil
     loop do

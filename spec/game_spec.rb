@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../lib/game'
+require_relative '../lib/board'
 
 describe Game do
   subject(:test_game) { Game.new }
@@ -48,4 +49,6 @@ describe Game do
       expect(test_game.translate_input('3c')).to eq([2, 2])
     end
   end
+
+
 end
