@@ -23,7 +23,7 @@ class Pawn < Piece
 
     take_positions = @take_directions \
       .map { |move| next_coords(@coords, move)} \
-      .reject { |move| board[move.first][move.last].nil? }
+      .reject { |move| move.nil? || board[move.first][move.last].nil? }
 
     move_positions + take_positions
   end
