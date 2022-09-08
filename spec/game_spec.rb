@@ -41,14 +41,12 @@ describe Game do
   end
 
   describe '.translate_input' do
-    xit 'translates A5 to 0, 4' do
-      expect(test_game.translate_input('A5')).to eq(48)
+    it 'translates A7 to 56' do
+      expect(test_game.translate_input('A8')).to eq(56)
     end
 
-    xit 'translates 3c to 2, 2' do
-      expect(test_game.translate_input('3c')).to eq(23)
+    it 'translates 21 to 10' do
+      expect(test_game.translate_input('c2')).to eq(10)
     end
   end
-
-
 end

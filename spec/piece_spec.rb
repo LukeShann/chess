@@ -3,9 +3,10 @@ require_relative '../lib/pieces/knight'
 require_relative '../lib/board'
 
 describe Piece do
-  subject(:test_knight) { Knight.new(:black, [0, 0]) }
-  let(:test_board) { Board.new.board }
-  before { test_board[0][0] = test_knight }
+  subject(:test_knight) { Knight.new(:white) }
+  let(:test_board) { Board.new.state }
+
+  before { test_board[0] = test_knight }
   
   describe '.can_move?' do
     context 'when open to move' do
@@ -16,8 +17,8 @@ describe Piece do
 
     context 'when there are no possible moves' do
       before do
-        test_board[1][2] = Knight.new(:black, [1, 2])
-        test_board[2][1] = Knight.new(:black, [2, 1])
+        test_board[17] = Knight.new(:white)
+        test_board[10] = Knight.new(:white)
       end
 
       it 'returns false' do
