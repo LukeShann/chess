@@ -16,20 +16,16 @@ class Game
     @in_check = false
   end
 
-  def change_turn
-    @current_player = @current_player == :black ? :white : :black
-  end
-
+  
   def play
     message(:welcome, true)
-
+    
     loop do
       take_turn
       in_check?
-    #   break if stale_mate
+      #   break if stale_mate
       change_turn
     end
-
     # message(:win)
   end
 
@@ -60,12 +56,16 @@ class Game
     @board.make_move(move)
   end
 
+  def change_turn
+    @current_player = @current_player == :black ? :white : :black
+  end
+
   def select_peice
     message(:turn_instructions, false)
     selection = nil
     loop do
       selection = get_input
-      response = @board.check_selection(selection, @current_player)
+      response = @board.check_player_choice(selection, @current_player)
       break if response == true
       message(response, true)
     end

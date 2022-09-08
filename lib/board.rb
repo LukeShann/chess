@@ -15,8 +15,7 @@ class Board
     @high_lighted = []
   end
   
-  # Needs updating
-  def check_selection(position, current_player)
+  def check_player_choice(position, current_player)
     peice = state[position]
     return :no_peice_to_select if peice.nil?
     return :peice_cannot_move unless peice.can_move?(state)
