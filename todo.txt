@@ -1,0 +1,24 @@
+Game
+  finish take_turn
+
+  add a call to check? & check_mate?
+
+Board
+  .check?
+  .check_mate?
+  keep last move highlighted
+  
+  promotion rule?
+  castling move?
+
+Piece
+  make stepping piece & sliding piece classes for piece movements
+
+Display
+  fix shitty messaging clumps
+
+  *** only display board when necessary, then have messages trawl
+
+  Initial save screen
+  AI player
+  
