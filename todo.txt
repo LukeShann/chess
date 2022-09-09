@@ -1,6 +1,5 @@
 Game
   finish take_turn
-
   add a call to check? & check_mate?
 
 Board
@@ -10,9 +9,6 @@ Board
   
   promotion rule?
   castling move?
-
-Piece
-  make stepping piece & sliding piece classes for piece movements
 
 Display
   fix shitty messaging clumps

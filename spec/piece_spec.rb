@@ -4,7 +4,7 @@ require_relative '../lib/board'
 
 describe Piece do
   subject(:test_knight) { Knight.new(:white) }
-  let(:test_board) { Board.new.state }
+  let(:test_board) { Board.new(false).state }
 
   before { test_board[0] = test_knight }
   

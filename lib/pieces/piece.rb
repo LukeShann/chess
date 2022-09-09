@@ -13,6 +13,10 @@ class Piece
   def can_move?(board)
     possible_moves(board).length > 0
   end
+  
+  def threatens_king?(board, enemy_king_position)
+    possible_moves(board).include?(enemy_king_position)
+  end
 
   private
 

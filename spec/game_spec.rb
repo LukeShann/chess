@@ -6,6 +6,8 @@ require_relative '../lib/board'
 describe Game do
   subject(:test_game) { Game.new }
 
+  
+
   describe 'input_valid?' do
     it 'accepts a letter and number' do
       expect(test_game.input_valid?('4C')).to be(true)

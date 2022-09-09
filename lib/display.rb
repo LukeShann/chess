@@ -63,7 +63,9 @@ module Display
       peice_cannot_move: "Peice has no possible moves",
       choose_friendly_peice: "That's not your peice",
       make_move: "Where would you like to move to?",
-      cannot_move_there: "Can't move there"
+      cannot_move_there: "Can't move there",
+      check_mate: "Checkmate! #{@current_player_color.capitalize} player wins!",
+      exposing_king: "Can't leave king exposed!"
     }
   end
 end

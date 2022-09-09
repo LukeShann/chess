@@ -8,9 +8,9 @@ class Board
   attr_reader :state, :selected_position, :high_lighted
   include Coords
 
-  def initialize
+  def initialize(copied)
     @state = Array.new(8 * 8)
-    fill_board
+    fill_board unless copied
     @selected_position = []
     @high_lighted = []
   end
@@ -40,8 +40,12 @@ class Board
     @high_lighted.clear
   end
 
-  def find_enemy_king(current_color)
-    state.index { |x| x != nil && x.kind_of?(King) && x.color != current_color }
+  def king_position(color)
+    state.index do |content|
+      content != nil && 
+      content.kind_of?(King) && 
+      content.color == color
+    end
   end
 
   def fill_board
@@ -58,5 +62,24 @@ class Board
       color = position < 16 ? :white : :black
       @state[position] = peice_class.new(color)
     end
+  end
+
+  def copy
+    copied_board = Board.new(true)
+    copied_state = state.map do |content|
+      if content.nil?
+        nil
+      else
+        class_to_copy = content.class
+        color_to_copy = content.color
+        class_to_copy.new(color_to_copy)
+      end
+    end
+    copied_board.set_state(copied_state)
+    copied_board
+  end
+
+  def set_state(state)
+    @state = state
   end
 end

@@ -12,13 +12,14 @@ class Pawn < Piece
     allowed_move_directions = move_directions
     allowed_move_directions.pop if has_moved?(board)
   
-    move_positions = allowed_move_directions \
-      .map { |direction| next_position(board.index(self), direction)} \
+    move_positions = allowed_move_directions
+      .map { |direction| next_position(board.index(self), direction)}
       .select { |move| board[move].nil? }
   
-    take_positions = take_directions \
-      .map { |direction| next_position(board.index(self), direction)} \
-      .reject { |move| move.nil? || board[move].nil? }
+    take_positions = take_directions
+      .map { |direction| next_position(board.index(self), direction)}
+      .compact
+      .select { |new_position| board[new_position] && board[new_position].color != color}
   
     move_positions + take_positions
   end

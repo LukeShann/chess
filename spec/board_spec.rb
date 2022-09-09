@@ -3,7 +3,7 @@
 require_relative '../lib/board'
 
 describe Board do
-  subject(:test_board) { Board.new }
+  subject(:test_board) { Board.new(false) }
 
   describe '.initialize' do
     context 'when creating a new board' do

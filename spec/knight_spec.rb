@@ -23,7 +23,7 @@ describe Knight do
     end
 
     context 'when on a new board' do
-      let(:test_board) { Board.new.state }
+      let(:test_board) { Board.new(false).state }
 
       before do
         test_board[57] = test_knight
