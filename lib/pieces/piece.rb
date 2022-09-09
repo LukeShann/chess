@@ -14,12 +14,6 @@ class Piece
     possible_moves(board).length > 0
   end
 
-  def possible_moves(board)
-    move_directions.reduce([]) do |arr, direction|
-      arr + path_recursive(board, board.index(self), direction)
-    end
-  end
-
   private
 
   def next_position(position, movement)
@@ -39,6 +33,16 @@ class Piece
       content.nil? || content.color != @color
     end
   end
+end
+
+class SlidingPiece < Piece
+  def possible_moves(board)
+    move_directions.reduce([]) do |arr, direction|
+      arr + path_recursive(board, board.index(self), direction)
+    end
+  end
+
+  private
 
   def path_recursive(board, positon, direction)
     new_position = next_position(positon, direction)
@@ -50,8 +54,10 @@ class Piece
     return [] if next_contents.color == color
     return [new_position] if next_contents.color != color
   end
+end
 
-  def possible_moves_static(board)
+class SteppingPiece < Piece
+  def possible_moves(board)
     board_position = board.index(self)
     
     new_positions = move_directions

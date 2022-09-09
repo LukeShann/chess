@@ -3,7 +3,6 @@
 require 'colorize'
 
 module Display
-
   def display_board
     color_ticker = true
     puts '   A  B  C  D  E  F  G  H'
@@ -57,7 +56,7 @@ module Display
   def messages
     {
       welcome: "Welcome to Chess Supreme!",
-      turn_instructions: "#{@current_player}'s turn".capitalize,
+      turn_instructions: "#{@current_player_color.capitalize}'s turn",
       input_instructions: "Choose coordinates",
       invalid_input: "Input should be a letter & number (e.g. 4C)",
       no_peice_to_select: "No peice there",

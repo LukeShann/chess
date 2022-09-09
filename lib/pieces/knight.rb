@@ -3,13 +3,9 @@
 
 require_relative 'piece'
 
-class Knight < Piece
+class Knight < SteppingPiece
   def ascii
     color == :white ? '♘' : '♞'
-  end
-
-  def possible_moves(board)
-    possible_moves_static(board)
   end
 
   private

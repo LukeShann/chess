@@ -12,11 +12,10 @@ class Game
   
   def initialize
     @board = Board.new
-    @current_player = :white
+    @current_player_color = :white
     @in_check = false
   end
 
-  
   def play
     message(:welcome, true)
     
@@ -30,9 +29,9 @@ class Game
   end
 
   def in_check?
-    enemy_king_coords = @board.find_enemy_king(@current_player)
+    enemy_king_coords = @board.find_enemy_king(@current_player_color)
     @board.state.any? do |x|
-      unless x.nil? || x.color != @current_player
+      unless x.nil? || x.color != @current_player_color
         if x.possible_moves(@board.state).include?(enemy_king_coords)
           @in_check = true
         end
@@ -57,7 +56,7 @@ class Game
   end
 
   def change_turn
-    @current_player = @current_player == :black ? :white : :black
+    @current_player_color = @current_player_color == :black ? :white : :black
   end
 
   def select_peice
@@ -65,7 +64,7 @@ class Game
     selection = nil
     loop do
       selection = get_input
-      response = @board.check_player_choice(selection, @current_player)
+      response = @board.check_player_choice(selection, @current_player_color)
       break if response == true
       message(response, true)
     end

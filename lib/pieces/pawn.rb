@@ -25,17 +25,17 @@ class Pawn < Piece
 
   private
 
-  def has_moved?(board)
-    return false if color == :black && (48..55).include?(board.index(self))
-    return false if color == :white && (8..15).include?(board.index(self))
-    true
-  end
-
   def move_directions
     color == :black ? [[0, -1], [0, -2]] : [[0, 1], [0, 2]]
   end
 
   def take_directions
     color == :black ? [[-1, -1], [1, -1]] : [[-1, 1], [1, 1]]
+  end
+  
+  def has_moved?(board)
+    return false if color == :black && (48..55).include?(board.index(self))
+    return false if color == :white && (8..15).include?(board.index(self))
+    true
   end
 end

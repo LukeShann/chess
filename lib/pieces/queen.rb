@@ -3,7 +3,7 @@
 
 require_relative 'piece'
 
-class Queen < Piece
+class Queen < SlidingPiece
   def ascii
     color == :white ? '♕' : '♛'
   end
