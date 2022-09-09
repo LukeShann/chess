@@ -32,40 +32,29 @@ module Display
     end
   end
 
-  def message(message, reset)
-    message_que.push(message)
-    @que = @que.last(3)
-    @que.shift if @que.first == @que.last
-    @que = [message] if reset 
-    display
+  def message(message)
+    puts messages[message]
   end
 
-  def message_que
-    @que ||= []
-  end
-
-  def display
+  def refresh_board
     system "clear"
     display_board
-
-    @que.each do |message|
-      puts messages[message].blue
-    end
   end
 
   def messages
     {
-      welcome: "Welcome to Chess Supreme!",
-      turn_instructions: "#{@current_player_color.capitalize}'s turn",
-      input_instructions: "Choose coordinates",
-      invalid_input: "Input should be a letter & number (e.g. 4C)",
-      no_peice_to_select: "No peice there",
-      peice_cannot_move: "Peice has no possible moves",
-      choose_friendly_peice: "That's not your peice",
-      make_move: "Where would you like to move to?",
-      cannot_move_there: "Can't move there",
-      check_mate: "Checkmate! #{@current_player_color.capitalize} player wins!",
-      exposing_king: "Can't leave king exposed!"
+      welcome: "Welcome to Chess Supreme!".yellow.on_black,
+      turn_instructions: "#{@current_player_color.capitalize}'s turn".blue,
+      input_instructions: "Choose coordinates".blue,
+      invalid_input: "Input should be a letter & number (e.g. 4C)".yellow,
+      no_peice_to_select: "No peice there".yellow,
+      peice_cannot_move: "Peice has no possible moves".yellow,
+      choose_friendly_peice: "That's not your peice".yellow,
+      make_move: "Where would you like to move to?".blue,
+      cannot_move_there: "Can't move there".yellow,
+      in_check: "In check, careful!".blue,
+      check_mate: "Checkmate! #{@current_player_color.capitalize} player wins!".green,
+      exposing_king: "Can't leave king exposed!".yellow
     }
   end
 end

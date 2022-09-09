@@ -17,22 +17,23 @@ class Game
   end
 
   def play
-    message(:welcome, true)
+    refresh_board
+    message(:welcome)
     loop do
+      message(:in_check) if @in_check
       take_turn
-      has_check?(@board, @current_player_color)
+      refresh_board
+      @in_check = has_check?(@board, @current_player_color)
       break if has_check_mate?(@board, @current_player_color)
       change_turn
     end
-    message(:check_mate, true)
+    message(:check_mate)
   end
 
   def has_check?(board, color)
     enemy_king_position = board.king_position(opposite_color(color))
     board.state.any? do |content|
-      if is_friendly_piece(content, color) && content.threatens_king?(board.state, enemy_king_position)
-          @in_check = true
-      end
+      is_friendly_piece(content, color) && content.threatens_king?(board.state, enemy_king_position)
     end
   end
 
@@ -74,18 +75,19 @@ class Game
 
   def take_turn
     select_peice
+    refresh_board
     # TODO: offer to cancel
 
     move = nil
     loop do
-      message(:make_move, false)
+      message(:make_move)
       move = get_input
       unless @board.high_lighted.include?(move)
-        message(:cannot_move_there, true)
+        message(:cannot_move_there)
         next
       end
       unless moves_out_of_check?(@board, @board.selected_peice, move)
-        message(:exposing_king, true)
+        message(:exposing_king)
         next
       end
       break
@@ -99,13 +101,13 @@ class Game
   end
 
   def select_peice
-    message(:turn_instructions, false)
+    message(:turn_instructions)
     selection = nil 
     loop do
       selection = get_input
       response = @board.check_player_choice(selection, @current_player_color)
       break if response == true
-      message(response, true)
+      message(response)
     end
     @board.select(selection)
   end
@@ -113,10 +115,10 @@ class Game
   def get_input
     input = nil
     loop do
-      message(:input_instructions, false)
+      message(:input_instructions)
       input = gets.chomp
       break if input_valid?(input)
-      message(:invalid_input, true)
+      message(:invalid_input)
     end
     translate_input(input)
   end

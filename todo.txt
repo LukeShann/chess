@@ -1,10 +1,7 @@
 Game
   finish take_turn
-  add a call to check? & check_mate?
 
 Board
-  .check?
-  .check_mate?
   keep last move highlighted
   
   promotion rule?
