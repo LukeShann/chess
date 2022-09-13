@@ -1,6 +1,13 @@
 Game
   finish take_turn
 
+  .get_input to accept letter commands
+
+  recall select & 
+
+  .handle_command func
+   -> triggers save, load or back commands
+
 Board
   keep last move highlighted
   

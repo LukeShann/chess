@@ -5,7 +5,7 @@ require 'colorize'
 module Display
   def display_board
     color_ticker = true
-    puts '   A  B  C  D  E  F  G  H'
+    puts "   A  B  C  D  E  F  G  H"
     7.downto(0) do |y|
       print "#{y + 1} "
       8.times do |x|
@@ -15,7 +15,7 @@ module Display
       print " #{y + 1}\n"
       color_ticker = !color_ticker
     end
-    puts '   A  B  C  D  E  F  G  H'
+    puts "   A  B  C  D  E  F  G  H\n\n"
   end
 
   def print_square(x, y, color_ticker)
@@ -51,10 +51,11 @@ module Display
       peice_cannot_move: "Peice has no possible moves".yellow,
       choose_friendly_peice: "That's not your peice".yellow,
       make_move: "Where would you like to move to?".blue,
+      unselect: "Enter [ X ] to unselect".blue,
       cannot_move_there: "Can't move there".yellow,
       in_check: "In check, careful!".blue,
       check_mate: "Checkmate! #{@current_player_color.capitalize} player wins!".green,
-      exposing_king: "Can't leave king exposed!".yellow
+      exposing_king: "Can't leave king exposed!".yellow,
     }
   end
 end

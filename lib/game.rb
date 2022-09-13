@@ -14,6 +14,7 @@ class Game
     @board = Board.new(false)
     @current_player_color = :white
     @in_check = false
+    @commands = ['X', 'S', 'L']
   end
 
   def play
@@ -74,49 +75,84 @@ class Game
   end
 
   def take_turn
-    select_peice
-    refresh_board
-    # TODO: offer to cancel
-
     move = nil
+    until move
+      select_piece
+      refresh_board
+      move = select_move
+    end
+    @board.make_move(move)
+  end
+
+  def select_move
+    message(:unselect)
+    message(:make_move)
+
     loop do
-      message(:make_move)
-      move = get_input
-      unless @board.high_lighted.include?(move)
+      input = get_input
+
+      if @commands.include?(input)
+        handle_command(input)
+        return nil
+      end
+      
+      unless @board.high_lighted.include?(input)
         message(:cannot_move_there)
         next
       end
-      unless moves_out_of_check?(@board, @board.selected_peice, move)
+
+      unless moves_out_of_check?(@board, @board.selected_peice, input)
         message(:exposing_king)
         next
       end
-      break
-    end
 
-    @board.make_move(move)
+      return input
+    end
+  end
+
+  def handle_command(command)
+    case command
+    when 'X'
+      @board.unselect
+      refresh_board
+    when 'S'
+      # save game & exit
+      puts 'FAKE GAME SAVED'
+      exit
+    when 'L'
+      # load game
+      puts 'FAKE LOADING GAME'
+    else
+      raise 'Command unknown'
+    end
   end
 
   def change_turn
     @current_player_color = @current_player_color == :black ? :white : :black
   end
 
-  def select_peice
+  def select_piece
     message(:turn_instructions)
-    selection = nil 
+    input = nil 
     loop do
-      selection = get_input
-      response = @board.check_player_choice(selection, @current_player_color)
-      break if response == true
-      message(response)
+      input = get_input
+      if @commands.include?(input)
+        handle_command(input)
+        next
+      end
+      validity = @board.validate_selection(input, @current_player_color)
+      break if validity == true
+      message(validity)
     end
-    @board.select(selection)
+    @board.select(input)
   end
 
   def get_input
     input = nil
     loop do
       message(:input_instructions)
-      input = gets.chomp
+      input = gets.chomp.upcase
+      return input if @commands.include?(input) 
       break if input_valid?(input)
       message(:invalid_input)
     end

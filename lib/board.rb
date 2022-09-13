@@ -11,11 +11,11 @@ class Board
   def initialize(copied)
     @state = Array.new(8 * 8)
     fill_board unless copied
-    @selected_position = []
+    @selected_position = nil
     @high_lighted = []
   end
   
-  def check_player_choice(position, current_player)
+  def validate_selection(position, current_player)
     peice = state[position]
     return :no_peice_to_select if peice.nil?
     return :peice_cannot_move unless peice.can_move?(state)
@@ -26,6 +26,11 @@ class Board
   def select(position)
     @selected_position = position
     @high_lighted = state[position].possible_moves(state)
+  end
+
+  def unselect
+    @selected_position = nil
+    @high_lighted.clear
   end
 
   def selected_peice
