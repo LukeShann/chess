@@ -3,6 +3,7 @@
 require_relative 'board'
 require_relative 'display'
 require_relative 'coords'
+require 'JSON'
 
 class Game
   include Display
@@ -115,15 +116,49 @@ class Game
     when 'X'
       @board.unselect
       refresh_board
+      message(:unselected)
     when 'S'
-      # save game & exit
-      puts 'FAKE GAME SAVED'
+      save_game
+      refresh_board
+      message(:game_saved)
       exit
     when 'L'
-      # load game
-      puts 'FAKE LOADING GAME'
+      if File.exist?(save_path)
+        load_game
+        refresh_board
+        message(:game_loaded)
+        message(:turn_instructions)
+      else
+        message(:no_save_file)
+      end
     else
       raise 'Command unknown'
+    end
+  end
+
+  def load_game
+    data = File.read(save_path)
+    hash = JSON.parse(data, symbolize_names: true)
+    load_board = JSON.parse(hash[:board], symbolize_names: true)
+    
+    @board.load_in_state(load_board)
+    @current_player_color = hash[:turn].to_sym
+    @in_check = hash[:in_check]
+  end
+
+  def save_path
+    __FILE__.gsub('lib/game.rb', 'save/saved_game.txt')
+  end
+
+  def save_game
+    data = {
+      board: @board.to_json,
+      turn: @current_player_color,
+      in_check: @in_check
+    }
+    json_data = data.to_json
+    File.open(save_path, 'w') do |file| 
+      file.write(json_data)
     end
   end
 
@@ -132,8 +167,9 @@ class Game
   end
 
   def select_piece
-    message(:turn_instructions)
     input = nil 
+    message(:save_load_menu)
+    message(:turn_instructions)
     loop do
       input = get_input
       if @commands.include?(input)

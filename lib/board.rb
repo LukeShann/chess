@@ -18,8 +18,8 @@ class Board
   def validate_selection(position, current_player)
     peice = state[position]
     return :no_peice_to_select if peice.nil?
-    return :peice_cannot_move unless peice.can_move?(state)
     return :choose_friendly_peice if peice.color != current_player
+    return :peice_cannot_move unless peice.can_move?(state)
     true
   end
 
@@ -86,5 +86,37 @@ class Board
 
   def set_state(state)
     @state = state
+  end
+
+  def load_in_state(load_state)
+    loaded_state = load_state.map do |hash|
+      piece = nil
+      unless hash.empty?
+        color = hash[:color].to_sym
+        piece = case hash[:class]
+        when 'Rook'
+          Rook.new(color)
+        when 'Knight'
+          Knight.new(color)
+        when 'Bishop'
+          Bishop.new(color)
+        when 'Queen'
+          Queen.new(color)
+        when 'King'
+          King.new(color)
+        when 'Pawn'
+          Pawn.new(color)
+        end
+      end
+      piece
+    end
+    set_state(loaded_state)
+  end
+
+  def to_json 
+    arr = @state.map do |position|
+      position.nil? ? {} : {:class => position.class.to_s, :color => position.color}
+    end
+    arr.to_json
   end
 end
