@@ -1,24 +1,11 @@
 Game
-  finish take_turn
-
-  .get_input to accept letter commands
-
-  recall select & 
-
-  .handle_command func
-   -> triggers save, load or back commands
-
+  add promotion move
+  add castling move
+    AI player?
 Board
-  keep last move highlighted
-  
-  promotion rule?
-  castling move?
+
 
 Display
-  fix shitty messaging clumps
+  Initial menu
 
-  *** only display board when necessary, then have messages trawl
-
-  Initial save screen
-  AI player
   
