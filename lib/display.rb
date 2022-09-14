@@ -36,7 +36,7 @@ module Display
     puts messages[message]
   end
 
-  def refresh_board
+  def refresh_display
     system "clear"
     display_board
   end

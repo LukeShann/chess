@@ -21,12 +21,12 @@ class Game
   end
 
   def play
-    refresh_board
+    refresh_display
     message(:welcome)
     loop do
       message(:in_check) if @in_check
       take_turn
-      refresh_board
+      refresh_display
       @in_check = has_check?(@board, @current_player_color)
       break if has_check_mate?(@board, @current_player_color)
       change_turn
@@ -38,7 +38,7 @@ class Game
     move = nil
     until move
       select_piece
-      refresh_board
+      refresh_display
       move = select_move
     end
     @board.make_move(move)
@@ -87,17 +87,17 @@ class Game
     case command
     when 'X'
       @board.unselect
-      refresh_board
+      refresh_display
       message(:unselected)
     when 'S'
       save_game
-      refresh_board
+      refresh_display
       message(:game_saved)
       exit
     when 'L'
       if File.exist?(save_path)
         load_game
-        refresh_board
+        refresh_display
         message(:game_loaded)
         message(:turn_instructions)
       else
